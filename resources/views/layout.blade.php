@@ -13,14 +13,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!--Custom Theme files-->
-<link href="css/style2.css" rel="stylesheet" type="text/css" media="all" />
+<link href="{{ url('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+<link href="{{ url('css/style3.css') }}" rel="stylesheet" type="text/css" media="all" />
+<link href="{{ url('css/style2.css') }}" rel="stylesheet" type="text/css" media="all" />
+
 <!--//Custom Theme files -->
 <!--web font-->
 <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'><!--web font-->
 <!--//web font-->
 <!--js-->
-<script src="js/jquery.min.js"></script>
-<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+<script src="{{ url('js/jquery.min.js') }}"></script>
+<script src="{{ url('js/easyResponsiveTabs.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
 			$('#horizontalTab').easyResponsiveTabs({
@@ -35,10 +38,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 	<!-- main -->
 	<div class="main">
-		<h1><img src="img/logo_radicales.png" alt=""/></h1>
+		<h1><img src="{{ url('img/logo_radicales.png') }}" alt=""/></h1>
 		<div class="main-info">
 			@yield('content')
 		</div>	
 	</div>	
+	<script src="{{ url('js/bootstrap.min.js') }}"></script>
+	<script src="{{ url('js/main.js') }}"></script>
 </body>
 </html>

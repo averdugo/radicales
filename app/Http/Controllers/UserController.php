@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Event;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Http\Redirector;
 
@@ -23,8 +24,8 @@ class UserController extends Controller
         }
         $user = User::where('username',$request->input('username'))->first();
         if (Hash::check($request->input('password'),$user->password)) {
-                
-                return view('home',['user' => $user]);
+                $events = Event::where('user_id',$user->id)->get();
+                return view('home',['user' => $user,'events' => $events]);
 
             }else{
                 return redirect('/');

@@ -2,6 +2,9 @@
 
 use App\Client;
 use App\Ticket;
+
+use App\Event;
+use App\User;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -18,20 +21,42 @@ $app->get('/', function () use ($app) {
 
     return view('login');
 });
+
 $app->get('/index', function () use ($app) {
-	
-    return view('home');
+	$user = User::first();
+	$events = Event::where('user_id',$user->id)->get();
+    return view('home',['user' => $user,'events' => $events]);
 });
 
-$app->get('user/{id}',function($id){
-    $client = new Client;
-    $client->unique_id = mt_rand();
-    $client->email='aldo.vc.1985@gmail.com';
-    $client->name='Aldo';
-    $client->phone='+56999999';
-    $client->save();
+$app->get('/eventDestroy/{id}', function ($id) use ($app) {
+	$event = Event::find($id);
+	$event->delete();
+	
+	$user = User::where('id',$event->user_id)->first();
+	$events = Event::where('user_id',$user->id)->get();
+    
+    return redirect('index');
+});
 
-    return 'save';
+$app->get('event/{id}',function($id){
+	$event = Event::find($id);
+	$clients = Client::where('event_id',$event->id)->get();
+	$user = User::where('id',$event->user_id)->first();
+	return view('event',['user' => $user,'e' => $event,'clients' => $clients]);
+});
+
+$app->get('ticket/{serie}',function($serie){
+	$ticket = Ticket::find($serie);
+	$client = Client::where('unique_id',$serie)->first();
+	$event = Event::find($client->event_id);
+	return view('ticket',['client' => $client,'e' => $event,'ticket' => $ticket]);
+});
+
+$app->get('client/{id}',function($id){
+	return Client::find($id);
 });
 
 $app->post('login/', 'UserController@login');
+$app->post('event/', 'EventController@create');
+$app->post('client/', 'ClientController@create');
+
